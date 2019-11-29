@@ -1,0 +1,163 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<mem.h>
+
+ struct Student {
+  char name[20];
+  int id;
+  int grads[3];
+};
+
+ struct Stack {
+  struct Student stu;
+  struct Stack * Prev;
+};
+ struct Stack *Tail;
+
+ struct Student FillStudent(void);
+ void PrintStudent(struct Student st);
+ struct Stack * CreateNode (struct Student st);
+ int Push (struct Student st);
+ struct Student Pop(void);
+
+ // main function;
+
+  int main()
+ {
+   struct Student st;
+   int retval;
+   int num;
+   clrscr();
+   printf("Stack concept.\n");
+   printf("1.Push information \n");
+   printf("2.Pop the data\n");
+   printf("3.Exit\n");
+   do
+    {
+
+      printf("choose your Action:\n");
+      scanf("%d",&num);
+
+      if(num == 1)
+	{
+
+
+	   retval=Push(st);
+	   if(retval==1)
+	    {
+		  printf(" your Data is inserted \n");
+	    }
+	   else
+	    {
+		 printf("\n your data doesn't inserted \n");
+	    }
+	}
+
+    else  if(num==2)
+      {
+	st=Pop();
+	if(st.id==-1)
+	 {
+	   printf("your stack is empty \n");
+	 }
+	else
+	 {
+	   PrintStudent(st);
+	 }
+
+      }
+
+    }while(num!=3);
+
+
+
+   return 0;
+
+ }
+
+ // function implementation;
+   struct Student FillStudent()
+    {
+       struct Student st;
+       int i;
+       printf(" \n Please insert the student information:");
+       printf(" \n Please enter your name:");
+       scanf("%s",st.name);
+       printf(" \n please enter your id:");
+       scanf("%d",&st.id);
+       printf(" \n Please enter your grade :\n");
+       for(i=0;i<3;i++)
+	{
+	 printf("Enter %d grade:",i+1);
+	 scanf("%d",&st.grads[i]);
+	 printf("\n");
+	}
+
+	return st;
+
+    }
+
+   void PrintStudent(struct Student st)
+   {
+      int i;
+      printf("\nYour Name is :%s ",st.name);
+      printf("\n \t Your id is :%d",st.id);
+      printf("\n \t your grads is:");
+      for(i=0;i<3;i++)
+       {
+	 printf("%d ",st.grads[i]);
+
+       }
+     printf("\n");
+   }
+
+   struct Stack * CreateNode (struct Student st)
+    {
+      struct Stack * ptr;
+      ptr = (struct Stack *) malloc (sizeof(struct Stack));
+      if(ptr)
+       {
+	ptr->stu=st;
+	ptr->Prev=NULL;
+       }
+      return ptr;
+    }
+
+   int Push (struct Student st)
+    {
+      int retval=0;
+      struct Stack *ptr;
+      ptr= CreateNode(st);
+      st=FillStudent();
+      if(ptr)
+       {
+	 ptr->stu=st;
+	 if(Tail ==NULL)
+	   {
+	    Tail=ptr;
+	    Tail->Prev=NULL;
+	   }
+	  else
+	   {
+	    ptr->Prev=Tail;
+	    Tail=ptr;
+	   }
+	  retval=1;
+       }
+       return retval;
+    }
+   struct Student Pop()
+   {
+
+      struct Stack *sk;
+      sk->stu.id=-1;
+      if(Tail!=NULL)
+       {
+	 sk=Tail;
+	 sk->stu=Tail->stu;
+	 Tail=sk->Prev;
+       }
+       return sk-> stu;
+
+   }
